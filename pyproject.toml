@@ -1,0 +1,67 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "manage-hourly-employee-access"
+dynamic = ["version"]
+description = ''
+readme = "README.md"
+requires-python = ">=3.8"
+license = "0BSD"
+keywords = []
+authors = [
+  { name = "Kevin Maskell-Moody", email = "kevin.maskellmoody@gmail.com" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = [
+    "requests>=2.0.0,<3.0.0",
+]
+
+[project.urls]
+Documentation = "https://github.com/Kevin Maskell-Moody/manage-hourly-employee-access#readme"
+Issues = "https://github.com/Kevin Maskell-Moody/manage-hourly-employee-access/issues"
+Source = "https://github.com/Kevin Maskell-Moody/manage-hourly-employee-access"
+
+[tool.hatch.build]
+packages = ["src/manage_hourly_employee_access"]
+
+[tool.hatch.version]
+path = "src/manage_hourly_employee_access/__about__.py"
+
+[tool.hatch.envs.types]
+extra-dependencies = [
+  "mypy>=1.0.0",
+]
+
+[tool.hatch.envs.types.scripts]
+check = "mypy --install-types --non-interactive {args:src/manage_hourly_employee_access tests}"
+
+[tool.coverage.run]
+source_pkgs = ["manage_hourly_employee_access", "tests"]
+branch = true
+parallel = true
+omit = [
+  "src/manage_hourly_employee_access/__about__.py",
+]
+
+[tool.coverage.paths]
+manage_hourly_employee_access = ["src/manage_hourly_employee_access", "*/manage-hourly-employee-access/src/manage_hourly_employee_access"]
+tests = ["tests", "*/manage-hourly-employee-access/tests"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]

@@ -1,0 +1,9 @@
+[Unit]
+Description=Run the hourly employee management script every weekday evening
+
+[Timer]
+OnCalendar=Mon..Fri 05:00..22:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

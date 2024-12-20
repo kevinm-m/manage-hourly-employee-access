@@ -1,0 +1,16 @@
+[Unit]
+Description=Run the hourly employee management script
+
+[Service]
+ExecStart=/usr/bin/python3 {{ script_destination }}
+Environment="AD_CLIENT_ID={{ ad_client_id }}"
+Environment="AD_CLIENT_SECRET={{ ad_client_secret }}"
+Environment="AD_TENANT_ID={{ ad_tenant_id }}"
+Environment="HOURLY_EMPLOYEES_GROUP_ID={{ hourly_group_id }}"
+PrivateTmp=true
+NoNewPrivileges=true
+ProtectSystem=full
+ProtectHome=true
+ReadOnlyPaths=/usr /lib
+ReadWritePaths=/tmp /var/tmp
+Restart=on-failure

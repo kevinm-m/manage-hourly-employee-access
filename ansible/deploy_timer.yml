@@ -1,0 +1,38 @@
+- name: Deploy hourly employee timer and script
+  hosts: daily_infra
+  become: yes
+
+  vars:
+    timer_name: "hourly_employee_access_timer"
+    python_script: "manage_hourly_employee_access.py"
+    script_source: "../src/{{ python_script }}"
+    script_destination: "/usr/local/bin/{{ python_script }}"
+
+  tasks:
+    - name: Deploy the Python script
+      copy:
+        src: "{{ script_source }}"
+        dest: "{{ script_destination }}"
+        mode: '0700'
+
+    - name: Configure systemd service
+      template:
+        src: templates/systemd_service.j2
+        dest: /etc/systemd/system/{{ timer_name }}.service
+      notify: Restart systemd
+
+    - name: Configure systemd timer
+      template:
+        src: templates/systemd_timer.j2
+        dest: /etc/systemd/system/{{ timer_name }}.timer
+      notify: Restart systemd
+
+    - name: Ensure timer is enabled and started
+      systemd:
+        name: "{{ timer_name }}.timer"
+        enabled: yes
+        state: started
+
+  handlers:
+    - name: Restart systemd
+      command: systemctl daemon-reload
